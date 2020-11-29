@@ -7,9 +7,7 @@ section {
   margin: 40px 0px;
 }
 
-div {
-  margin: 40px 20px;
-}
+div {margin: 40px 20px;}
 </style>
 
 <template>
@@ -17,7 +15,7 @@ div {
     <header-comp></header-comp>
 
     <section id="page1" data-role="page">
-      <div class="content" data-role="content">컨텐츠</div>
+        <div class="content" data-role="content">컨텐츠</div>
     </section>
 
     <footer-comp></footer-comp>

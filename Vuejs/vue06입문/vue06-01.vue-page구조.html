@@ -28,10 +28,10 @@
         1단계: 스크립트 플러그인 임포트
         <!-- vue 플러그인 임포트 -->
         < script src="https://unpkg.com/vue@2.5.16/dist/vue.js"> /* vue 플러그인 임포트 */</script>
-        < script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"> /* JSX를 자바스크립트로 변환 */</script>
+        < script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"> /* JSX를 자바스크립트로 변환. babel을 통해서 브라우저에서 ES5로 전환*/</script>
 
-        < script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
-        < script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+        < script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 (변수를 바깥에서 관리)*/</script>
+        < script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 (외부 서버 통신, jQuery Ajax 함수와 동일)*/</script>
         < script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
 
         < script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery library */</script>
@@ -42,14 +42,14 @@
 
         2단계: Vue 인스턴스 생성
         new Vue({
-            el: "#",
-            data: {
+            el: "#",//완전 필수. 찾는거
+            data: {//완전 필수. 변수
 
             },
             template : {
 
             },
-            methods: {
+            methods: {//완전 필수. 함수
 
             },
             components : {
@@ -58,10 +58,10 @@
             computed: {
 
             },
-            watch : {
+            watch : {//여기까지 필수, 객체
 
             },
-            beforeCreate() {
+            beforeCreate() {//여기서부터 함수
 
             },
             created() {

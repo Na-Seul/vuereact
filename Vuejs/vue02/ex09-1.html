@@ -14,4 +14,40 @@
 </body>
 
 </html>
-
+
+<script>
+    var Dog = {
+        name: "Fido",
+        weight: 40,
+        breed: "Mixed",
+        loves: ["walks"],
+        eat: function(){},
+        run: function(){},
+        breathe: function(){},
+    };
+
+    var p = {
+        id: "a1",
+        class: "b1",
+        style: "",
+        src: "",
+        href: "",
+    };
+
+    //프로퍼티 읽기/추가/수정/삭제
+
+var foo={
+    name:"foo",
+    age: 30,
+    array: [1,4,5,5],
+    run: function(){return this.name;},
+;}
+//읽기
+console.log(foo.name);
+console.log(foo['name']);
+console.log(foo.run());
+//추가
+foo.gender = 'main';
+//수정
+foo.name = 'bar';
+</script>
