@@ -49,11 +49,12 @@
     <hr>
 
     <div id="app">
-        <input v-model:value="message">
+        <!-- v-model: 키 업을 하지 않아도 자동으로 data에 들어감. input, textarea, select 에서만 사용 가능-->
+        <input v-model:value="message"><!--데이터 등록 필-->
         <button v-on:click="reverseMsg">문자열 역순</button>
         <p> </p>
-        <p>methods 속성을 이용한 수동 반영: <span>{{ methodscopy }}</span></p>
-        <p>watch 속성을 자동 반영: <span>{{ watchcopy }}</span></p>
+        <p>methods 속성을 이용한 수동 반영: <span>{{ methodscopy }}</span></p><!--데이터 등록 필-->
+        <p>watch 속성을 자동 반영: <span>{{ watchcopy }}</span></p><!--데이터 등록 필-->
         <p>computed 속성을 자동 반영: <span>{{ computedcopy }}</span></p>
     </div>
 </body>
@@ -61,3 +62,54 @@
 </html>
 
 <!-- vue 플러그인 임포트   -->
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"> /* JSX를 자바스크립트로 변환 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery library */</script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            message: "Hello, Vue.js",
+            methodscopy: "",
+            watchcopy: "",
+        },
+        methods: {
+            reverseMsg: function(){
+                //split(): 내용을 쪼개서 배열로 만들어라
+                //reverse(): 역순으로 정렬해라
+                //join(): 합쳐라
+                //this.$data.message = this.$data.message.split("").reverse().join("");//방법1
+                this.$set(this.$data,"message",this.$data.message.split("").reverse().join(""));//방법2
+            },
+            methodscopy: function(){
+                
+            },
+        },
+        components: {
+    
+        }, 
+        computed: {
+            computedcopy: function(){
+                var dt = new Date().toLocaleTimeString();
+                return this.$data.message + " : " + dt;
+            },
+        },
+        watch: {
+            message: function(value){
+                this.$data.watchcopy = value;
+            },
+        },
+        mounted: function() {
+            console.log("mounted");
+        },
+        updated: function() {
+            console.log("updated");
+        },
+    });
+    
+</script>

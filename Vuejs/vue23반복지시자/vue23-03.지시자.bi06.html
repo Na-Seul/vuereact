@@ -15,12 +15,30 @@
 
 <body>
     <pre>
+        v-for 지시자를 사용하여 자신이 좋아하는 가수들을 출력하는 테이블을 작성하여 본다.
 
-      v-for 지시자를 사용하여 자신이 좋아하는 가수들을 출력하는 테이블을 작성하여 본다.
+        1. Object Array 를 만들어 화면과 같이 표시되게 하시오.    
+        2. "추가" 버튼을 만들고 클릭 이벤트를 설정하시오
+        3. "추가" 버튼을 클릭하면 행이 추가되게 작성하시오.
+    
+        4. input 태그를 3개추가 하고 
+           "추가" 버튼을 클릭하면 해당 
+           입력값을 이용하여 객체를 만들고 
+           만들어진 객체를 Object Array에 추가한다.
+           <!--
+            <label for="">이름</label><input v-model:value="name">
+           <label for="">전화번호</label><input v-model:value="tel">
+           <label for="">주소</label><input v-model:value="address">
+           -->
     </pre>
     <hr>
 
     <div id="app" class="col-md-10 offset-md-1">
+        <!--value값을 객체의 값으로 만들어보자! user.name-->
+        <label for="">이름:</label><input v-model:value="name">
+        <label for="">전화번호:</label><input v-model:value="tel">
+        <label for="">주소:</label><input v-model:value="address">
+        <button v-on:click="btnAddClick">클릭</button>
         <table id="list" class="table-bordered">
             <thead>
                 <tr class="bg-warning text-white text-center">
@@ -39,8 +57,8 @@
                 </tr>
             </tbody>
         </table>
+        <br>
     </div>
-
 
     
 
@@ -49,3 +67,55 @@
 </html>
 
 <!-- vue 플러그인 임포트   -->
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"> /* JSX를 자바스크립트로 변환 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery library */</script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            contacts: [
+                {name:"뫄뫄",tel:"010-1111-1111",address:"서울 은평구"},
+                {name:"솨솨",tel:"010-2222-2222",address:"서울 강남구"},
+                {name:"롸롸",tel:"010-3333-3333",address:"광주 남구"},
+            ],
+            name:"", tel:"", address:"",
+        },
+        methods: {
+            btnAddClick: function(event){
+                console.log(event.target);
+                //유효성 검사
+                //입력여부, 자료형 일치 여부 검사 등..
+
+                //객체생성
+                var obj = {
+                    name: this.$data.name,
+                    tel: this.$data.tel,
+                    address: this.$data.address
+                }
+                //배열 추가
+                this.$set(this.$data.contacts, this.$data.contacts.length, obj);
+                this.$set(this.$data,"name","");
+                this.$set(this.$data,"tel","");
+                this.$set(this.$data,"address","");
+            },
+        },
+        watch: {
+            name: function(value){
+                this.$data.name = value;
+            },
+            tel: function(value){
+                this.$data.tel = value;
+            },
+            address: function(value){
+                this.$data.address = value;
+            },
+        },
+    });
+    
+</script>

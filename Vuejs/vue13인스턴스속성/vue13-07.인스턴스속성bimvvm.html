@@ -21,6 +21,7 @@
       작업 내용
         1. 페이지가 로딩되면 {{message}} 자리에 "change message at mounted!!!" 를 출력하시오.
         2. 버튼을 클릭하면 {{message}} 자리에 "change message when a button clicked!!!" 를 출력하시오.
+        <!-- life cycle -->
         3. 페이지가 로딩 3초 후에 {{message}} 자리에 "change message after 3 seconds!!!" 를 출력하시오.
         4. 페이지가 로딩 5초 후에 {{message}} 자리에 "change message after 5 seconds!!!" 를 출력하시오.
 
@@ -35,3 +36,55 @@
 </html>
 
 <!-- vue 플러그인 임포트   -->
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"> /* JSX를 자바스크립트로 변환 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery library */</script>
+<script>
+    new Vue({
+        /* edtmc^2w */
+        el: "#my",
+        data: {
+            message:"change message at mounted!!!",
+        },
+        methods: {
+            doClick: function(event){
+                console.log(event.target);//이벤트가 잘 작동되는지 확인용
+                var time = new Date().toLocaleString();
+                //this.$data.message = "change message when a button clicked!!!";//방법1
+                this.$set(this.$data,"message","change message when a button clicked!!!"+time);//방법2
+            },
+        },
+        components: {
+    
+        }, 
+        computed: {
+    
+        },
+        watch: {
+    
+        },
+        mounted: function() {
+            console.log("mounted");//페이지가 처음 로딩될 때
+            window.setTimeout(()=>{//arrow함수: this를 vue 인스턴스로 바꾸는 방법1
+                console.log(this);
+                this.$set(this.$data,"message","change message after 3 seconds!!!");
+            }, 3000);
+            //self: this를 vue 인스턴스로 바꾸는 방법2
+            var self = this;
+            window.setTimeout(function(){
+                console.log(self);
+                self.$set(self.$data,"message","change message after 5 seconds!!!");
+            }, 5000);
+        },
+        updated: function() {
+            
+            console.log("updated");//값이 바뀔 때 마다
+        },
+    });
+    
+</script>

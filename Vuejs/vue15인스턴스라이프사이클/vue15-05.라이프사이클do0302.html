@@ -20,7 +20,7 @@
         Vue 라이프 사이클 단계 속성과 목적을 이해한다
 
         Vue 라이프 사이클 updated 단계가 실행되게 하려면 어떻게 하면 되는가?
-        
+            => 데이터의 값을 바꾸면 리렌더링이 발생
         updated 단계는 화면의 일부분이 새로고침(렌더링)되는 것을 의미한다. 
         
         기능 추가
@@ -36,7 +36,7 @@
     <div id="app">
         {{ message }}
         <!-- 버튼 기능 추가-->
-
+        <button v-on:click="btn">버튼</button>
     </div>
 
     
@@ -45,3 +45,44 @@
 </html>
 
 <!-- vue 플러그인 임포트   -->
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"> /* JSX를 자바스크립트로 변환 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery library */</script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            message: "Hello, Vue.js!",
+        },
+        methods: {
+            btn: function(event){
+                var time = new Date().toLocaleTimeString();
+                console.log(event.target);
+                this.$set(this.$data,"message","나슬기 " + time);
+            },
+        },
+        components: {
+    
+        }, 
+        computed: {
+    
+        },
+        watch: {
+    
+        },
+        beforeCreate: function() { console.log("beforeCreate"); },
+        created: function(){ console.log("created"); },
+        beforeMounte: function() { console.log("beforeMounte"); },//로딩 시 한 번
+        mounted: function() { console.log("mounted"); },//로딩 시 한 번
+        beforeUpdate: function () { console.log("beforeUpdate"); },//값이 바뀔 때 마다
+        updated: function() { console.log("updated"); },//값이 바뀔 때 마다
+    });
+
+    //외부에서 this.$data 쓰는 방법: vue 객체를 변수에 담고 this 대신 변수를 쓴다
+    vm.$data.message = "abc"
+</script>
