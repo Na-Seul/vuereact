@@ -192,7 +192,7 @@
 
 <body>
     <pre style="text-align:left;">
-    
+
     선 학습 필요 사항:
         array.reduce() 사용법 
         array.map() 사용법 
@@ -217,6 +217,9 @@
 
     주의 사항.
         1. checked 메서드에서 class에 빈 문자열로 설정하면 안됨. null 로 설정하면 됨. 
+        2. 삭제 버튼을 클릭하면 click 이벤트가 bubbling 안되게 이벤트 취소하는 기능을 추가해야 한다.
+            변경전: v-on:click="removeTodo(todoItem.id, index)"
+            변경후: v-on:click.stop="removeTodo(todoItem.id, index)"
         
     </pre>
     <hr>
@@ -230,9 +233,7 @@
 
         <!-- TodoInput -->
         <div class="inputBox shadow">
-            <input type="text"
-                placeholder="Type what you have to do"
-                v-model.trim:value="newTodoItem"
+            <input type="text" placeholder="Type what you have to do" v-model.trim:value="newTodoItem"
                 v-on:keyup.enter="addTodo" />
             <span class="addContainer" v-on:click="addTodo">
                 <i class="addBtn fas fa-plus" aria-hidden="true"></i>
@@ -259,15 +260,11 @@
         <!-- TodoList -->
         <section>
             <transition-group name="list" tag="ul">
-                <li v-for="(todoItem, index) in todoItems"
-                    v-bind:key="todoItem.id"
-                    v-bind:class="checked(todoItem.done)"
-                    v-on:click="doneToggle(todoItem.id, index)">
+                <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem.id"
+                    v-bind:class="checked(todoItem.done)" v-on:click="doneToggle(todoItem.id, index)">
                     <i class="checkBtn fas fa-check" aria-hidden="true"></i>
                     {{ todoItem.todo }}
-                    <span class="removeBtn"
-                          type="button"
-                          v-on:click="removeTodo(todoItem.id, index)">
+                    <span class="removeBtn" type="button" v-on:click.stop="removeTodo(todoItem.id, index)">
                         <i class="far fa-trash-alt" aria-hidden="true"></i>
                     </span>
                 </li>
@@ -285,4 +282,90 @@
 
 </html>
 
+
 <!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"> /* JSX를 자바스크립트로 변환 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery library */</script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            showModal: null,
+            newTodoItem: null,
+            todoItems: [
+                { id: 1, todo: "영화보기", done: false },
+                { id: 2, todo: "주말 산책", done: true },
+                { id: 3, todo: "ES6 학습", done: false },
+                { id: 4, todo: "잠실 야구장", done: false }
+            ],
+        },
+        //template: ``,
+        methods: {
+            /*
+            1. add 할 때 this.$data.todoItems 가 빈 배열인 경우 기능 추가
+            2. add 후에 input 태그의 입력 값 지우기. 
+            3. 토글 할 때 findIndex 로 못 찾는 경우에 대한 방어 코드 추가.
+            4. input 태그에 빈 문자일이 입력 되는 경우는 배열에 추가되지 않게. 
+            5. todo 타이틀 바꾸기. 기능 누락. 추가 필요
+            */
+            //v-bind지만 함수는 methods에서 처리한다
+            checked: function(done){
+                //done의 값이 true일 때 클래스에 checked 추가
+                if (done) {
+                    return "checked";
+                }else{
+                    return null;
+                }
+            },
+            doneToggle: function(id, index){
+                //클릭 시 checked 반전기능
+                //this.$data.todoItems[index].done = !this.$data.todoItems[index].done;
+                this.$set(this.$data.todoItems[index],"done",!this.$data.todoItems[index].done);
+            },
+            removeTodo: function(id, index){
+                //삭제(기존 배열 복제 후 내용 삭제 후 다시담기) -> splice(시작위치, 갯수)
+                this.$data.todoItems.splice(index,1);
+                
+                //span클릭 이벤트(remove)가 위로(li)(toggle) 올라가지 못하도록
+                //코드상 처리 방법:
+                //event.preventDefault();
+                //event.stopPropagation();
+                //태그상 처리 방법:
+                //v-on:click태그에 .stop을 추가해줌
+            },
+            clearAll: function(event){
+                //새로운 배열로 교체
+                //this.$data.todoItems = [];
+                this.$set(this.$data,"todoItems",[])
+            },
+            addTodo: function(event){
+                //this.$set(this.$data,"newTodoItem",event.target.value);
+                var toDo = this.$data.newTodoItem;
+                //this.$data.todoItems 의 max id 값 찾기
+                var todoLength = this.$data.todoItems;
+                var maxObj = null;
+                if (todoLength.length > 0) {
+                    maxObj = todoLength.reduce(function(previtem, nextitem){
+                        return previtem.id > nextitem.id ? previtem.id:nextitem;
+                    });
+                }else{
+                    maxObj === {id:0, todo:"", done:false}
+                }
+                var obj = {
+                    id: maxObj.id+1,
+                    todo: toDo,
+                    done: false
+                    };
+                //this.$data.todoItems 에 obj 추가
+                this.$set(this.$data.todoItems,todoLength.length,obj);
+                //input태그 입력값 클리어
+                this.$set(this.$data,"newTodoItem","");
+            },
+        },
+    });
+
+</script>

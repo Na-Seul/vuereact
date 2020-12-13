@@ -26,13 +26,13 @@
         전역 컴포넌트 템플릿
         <div>
             전역 컴포넌트
-            <button onclick="gclick">{{propsdata}}</button>
+            <button v-on:click="gclick">{{propsdata}}</button>
         </div>
 
         지역 컴포넌트 템플릿
         <div>
             지역 컴포넌트가 등록되었습니다!
-            <span style="border: 1px dashed blue; background-color:lightgray; padding: 5px;" onclick="lclick">
+            <span style="border: 1px dashed blue; background-color:lightgray; padding: 5px;" v-on:click="lclick">
                 {{localmsg}}
             </span>
         </div>
@@ -45,7 +45,10 @@
 
     <div id="app">
         <h2>컴포넌트 등록</h2>
-
+        <!--
+            v-bind:자식변수명="부모변수명"
+            자식변수는 부모변수를 값으로 갖는다
+         -->
         <global-component v-bind:propsdata="globalmsg1"></global-component>
         <global-component v-bind:propsdata="globalmsg2"></global-component>
         <hr>
@@ -57,4 +60,76 @@
 
 </html>
 
+
 <!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"> /* JSX를 자바스크립트로 변환 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery library */</script>
+<script>
+    //전역컴포넌트 만들기
+    //전역컴포넌트를 넣어줄 !태그! 를 적는다
+    Vue.component("global-component", {
+        /* pdtmc^2w */
+        props: ["propsdata"],//부모로부터 데이터를 받을 때 사용하는 변수명 입력
+        data: function () {//자체 데이터 사용할 때 사용하는 변수명 입력
+            return {
+            }
+        },
+        //요걸 data와 method에 적용
+        template: `
+        <div>
+            전역 컴포넌트
+            <button v-on:click="gclick">{{propsdata}}</button>
+        </div>
+        `,
+        methods: {
+            gclick: function(event){
+                console.log(event.target);
+                alert(event.target.innerText);
+            },
+        },
+    });
+
+    //지역컴포넌트 만들기 -> 인스턴스 등록!
+    var aaa = {
+        props: ["localmsg"],
+        data: function () {
+            return {}
+        },
+        template: `
+        <div>
+            지역 컴포넌트가 등록되었습니다!
+            <span style="border: 1px dashed blue; background-color:lightgray; padding: 5px;" v-on:click="lclick">
+                {{localmsg}}
+            </span>
+        </div>
+        `,
+        methods: {
+            lclick: function(event){
+                console.log(event.target);
+                alert(event.target.innerText);
+            },
+        },
+    };
+
+    //인스턴스 만들기 -> 가장 밑에 있어야 함!
+    new Vue({
+        el: "#app",
+        data: {
+            globalmsg1: "전역 메세지1",
+            globalmsg2: "전역 메세지2",
+            localmsg1: "지역 메세지1",
+            localmsg2: "지역 메세지2",
+        },
+        components: {
+            //지역컴포넌트는 여기(vue 인스턴스)에 등록해야 한다!!
+            //전역은 등록기능 필요 없음~~ 찾아 쓰면 됨
+            //작성규칙: "태그명": 지역컴포넌트 선언 변수명,
+            "local-component": aaa,
+        },
+    });
+
+</script>

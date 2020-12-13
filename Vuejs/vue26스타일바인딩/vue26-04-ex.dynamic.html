@@ -17,6 +17,7 @@
             width: 150px;
             height: 150px;
             text-align: center;
+            border: 1px solid #000;
         }
 
         #app.ready {
@@ -69,4 +70,45 @@
 </html>
 
 <!-- vue 플러그인 임포트   -->
-
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"> /* JSX를 자바스크립트로 변환 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery library */</script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            //msg: "ready",
+            state: "ready",
+        },
+        methods: {
+            change: function (event) {
+                console.log(event.target);
+                var arrayObj = [
+                    { background: "pink", color: "brown", },
+                    { background: "green", color: "tomato", borderRadius: "30 %",},
+                    { background: "yellow", color: "blue", borderRadius: "50 %",},
+                ];
+                var state = this.$data.state;
+                if (state === "ready") {
+                    this.$set(this.$data,"state","active");
+                }else if (state === "active") {
+                    this.$set(this.$data,"state","done");
+                }else {
+                    this.$set(this.$data,"state","ready");
+                }
+            },
+        },
+        computed:{
+            //동일명의 이름이 data에 들어가있으면 오류난다
+            msg: function(event){
+                return this.$data.state;
+            },
+        },
+    });
+
+</script>
