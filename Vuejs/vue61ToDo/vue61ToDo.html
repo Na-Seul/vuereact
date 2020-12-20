@@ -129,12 +129,12 @@
             ├─ dist                     # 빌드된 결과물이 저장되는 폴더. 서버로 배포되는 파일들.
             ├─ node_modules             # npm 모듈(패키지) 저장 폴더
             ├─ public                   # 배포 버전을 빌드할 때 사용하는 파일.
-            │   └─ index.html
+            │   └─ index.html           #!!3번 내용 설정
             │   └─ favion.ico
             └─ src                       # 소스 코드 폴더
             │   └─ assets               # 이미지, CSS, 기타 자원 파일
             │   ├─ components           # 컴포넌트
-            │   │   └─ todo            # 폴더 생성
+            │   │   └─ todo            # !!폴더 생성
             │   ├─ router               # 라우터
             │   ├─ views                # 라우터 페이지
             │   ├─ App.vue
@@ -154,12 +154,12 @@
             └─ src
             │   └─ components   
             │       │   └─ todo 
-            │       │       └─ TodoHeader.vue  # 파일 생성. Vue component에 해당됨  
-            │       │       └─ TodoInput.vue   # 파일 생성. Vue component에 해당됨  
-            │       │       └─ TodoList.vue    # 파일 생성. Vue component에 해당됨  
-            │       │       └─ TodoFooter.vue  # 파일 생성. Vue component에 해당됨  
+            │       │       └─ !!TodoHeader.vue  # 파일 생성. Vue component에 해당됨  
+            │       │       └─ !!TodoInput.vue   # 파일 생성. Vue component에 해당됨  
+            │       │       └─ !!TodoList.vue    # 파일 생성. Vue component에 해당됨  
+            │       │       └─ !!TodoFooter.vue  # 파일 생성. Vue component에 해당됨  
             │       └─ views                    
-            │           └─ Todo.vue            # 파일 생성. Vue 인스턴스에 해당됨
+            │           └─ !!Todo.vue            # 파일 생성. Vue 인스턴스에 해당됨
             ├─ babel.config.js
             ├─ package.json
             └─ README.md
@@ -176,7 +176,10 @@
                           ~/src/components/todo/TodoFooter.vue
 
 
-        6. 라우팅 설정 
+        6. 라우팅 설정
+            ~/src/App.vue 에 router-link 추가
+            ~/src/router/index.js 수정
+            
             step 6-1. ~/src/App.vue 에 router-link 추가
                 <div id="app">
                     <div id="nav">

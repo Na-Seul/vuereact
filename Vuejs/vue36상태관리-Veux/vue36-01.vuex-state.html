@@ -22,12 +22,16 @@
 
       1.1 상태 관리란?
        상태 관리란 중앙 집중식으로 한 곳에서 여러 컴포넌트 간의 데이터를 관리한다는 것을 의미합니다.
+       컴포넌트와 컴포넌트, 인스턴스와 컴포넌트 간: props, 이벤트
 
       1.2 상태 관리(State Management)가 왜 필요한가?
-       컴포넌트로 화면을 구성하는 경우 컴포넌트간의 데이터 공유가 필요합니다.
-       컴포넌트가 많은 경우 props나 이벤트, 이벤트버스를 사용하여 상태를 관리하는 것은 효율적이지 않습니다.
-       컴포넌트가 많은 경우 효율적인 컴포넌트 간의 통신이나 데이터 관리 방밥이 필요합니다.
-       그것이 Vuex 입니다.
+      컴포넌트로 화면을 구성하는 경우 컴포넌트간의 데이터 공유가 필요합니다.
+      컴포넌트가 많은 경우 props나 이벤트, 이벤트버스를 사용하여 상태를 관리하는 것은 효율적이지 않습니다.
+      컴포넌트가 많은 경우 효율적인 컴포넌트 간의 통신이나 데이터 관리 방밥이 필요합니다.
+      그것이 Vuex 입니다.
+
+      왜 Vuex를 사용해야 하는가?
+      ==> 복잡한 state UP(event)/DOWN(props)을 없애기 위해
 
       1.3 상태 관리로 해결할 수 있는 문제점?
        상태 관리는 중대형 규모의 웹 애플리케이션에서 컴포넌트 간에 데이터를 더 효율적으로 전달할 수 있습니다.
@@ -51,7 +55,9 @@
         {{header}} 에는 "Vuex 사용 앱" 가 나오게
         {{welcome}} 에는 "HELLO WORLD" 가 나오게
         {{counter}} 에는 0 이 나오게
-    작업2
+    작업2 버튼 추가
+    작업3 vuex 인스턴스 만들기
+    작업4 store를 사용하도록 기존코드(인스턴스, 컴포넌트) 수정
         <button v-on:click="decrement">나를 빼줘</button>
     </pre>
     <hr>
@@ -67,3 +73,94 @@
 </html>
 
 <!-- vue 플러그인 임포트   -->
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"> /* JSX를 자바스크립트로 변환 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery library */</script>
+<script>
+    //vuex 인스턴스 만들기
+    var store = new Vuex.Store({
+        actions:{
+            //사용 목적: 비동기 외부 함수 호출
+            //메서드만 취급한다
+            //첫번째 인자는 무조건 mutations, 두번째 인자는 값
+            increment: function(mutations, param){
+                //외부함수 호출&결과 받기
+                var result1 = param;
+
+                //mutations commit
+                mutations.commit("increment", result1);
+            },
+            decrement: function(mutations, param){
+                //외부함수 호출&결과 받기
+                var result1 = param;
+
+                //mutations commit
+                mutations.commit("decrement", result1);
+            },
+        },
+        mutations:{
+            //사용 목적: 동기식 함수 호출. state를 바꾸기 위해
+            //메서드만 취급한다
+            //첫번째 인자는 무조건 state, 두번째 인자는 값
+            increment: function(state, param){
+                //결과 받기
+                //this.$data == state
+                state.counter = state.counter+param;
+                //state commit
+            },
+            decrement: function(state, param){
+                //결과 받기
+                state.counter = state.counter+param;
+                //state commit
+            },
+        },
+        state:{//vue 인스턴스의 데이터에 해당
+            counter: 0,
+        },
+        getters:{
+            //사용 목적: state 변경 여부를 컴포넌트에 알림
+            //첫번째 인자는 무조건 state
+            //return state.값 이 필요
+            counter: function(state){
+                return state.counter;
+            },
+        },
+    });
+
+    //vue 인스턴스 만들기
+    new Vue({
+        el: "#app",
+        data: {
+            header: "Vuex 사용 앱",
+            welcome: "HELLO WORLD",
+            //store에 있는 걸로 사용하도록 변환
+            //counter: 0,
+        },
+        methods: {
+            increment: function(event){
+                //this.$set(this.$data,"counter",this.$data.counter+1);
+
+                //store에 있는 걸로 사용하도록 변환
+                //store.dispatch("액션명",값);
+                store.dispatch("increment",+1);
+            },
+            decrement: function(event){
+                //this.$set(this.$data,"counter",this.$data.counter-1);
+                store.dispatch("decrement",-1);
+            },
+        },
+        computed: {
+            //store의 state를 모니터링하게 작성
+            //computed의 이름과 data의 이름이 중복되면 안됨!
+            counter: function(){
+                return store.getters.counter;
+            },
+        },
+    });
+    
+</script>

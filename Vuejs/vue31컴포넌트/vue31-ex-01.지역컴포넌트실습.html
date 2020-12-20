@@ -119,10 +119,6 @@
         component-content-list
     */
     var componentHeader = {
-        props: [],
-        data: function () {
-            return {}
-        },
         template: `
         <header>
             Header
@@ -133,10 +129,6 @@
         },
     };
     var componentFooter = {
-        props: [],
-        data: function () {
-            return {}
-        },
         template: `
         <footer>
             Footer
@@ -146,32 +138,9 @@
 
         },
     };
-    var componentContent = {
-        props: [] ,
-        data: function() {
-            return { }
-        },
-        template: `
-        <div id="content">
-            <p>Content</p>
-            <component-aside></component-aside>
-            
-            <component-content-list></component-content-list>
-            
-        </div>
-        `,
-        methods: {
     
-        },
-        components: {
-    
-        },
-    };
+    //자식 컴포넌트는 부모 컴포넌트보다 위에 있어야 한다!!
     var componentAside = {
-        props: [] ,
-        data: function() {
-            return { }
-        },
         template: `
             <aside>
                 Aside
@@ -179,32 +148,32 @@
         `,
     };
     var componentContentList = {
-        props: [] ,
-        data: function() {
-            return { }
-        },
         template: `
             <div id="content-list">
                 List
             </div>
         `,
     };
-    
+    var componentContent = {
+        template: `
+        <div id="content">
+            <p>Content</p>
+            <component-aside></component-aside>
+            <component-content-list></component-content-list>
+        </div>
+        `,
+        components: {//즉, 자식으로 컴포넌트 등록하는 자리
+            "component-aside": componentAside,
+            "component-content-list": componentContentList,
+        },
+    };
     
     new Vue({
         el: "#app",
-        data: {
-
-        },
-        methods: {
-
-        },
         components: {
             "component-header": componentHeader,
             "component-content": componentContent,
             "component-footer": componentFooter,
-            "component-aside": componentAside,
-            "component-content-list": componentContentList,
         },
     });
 
