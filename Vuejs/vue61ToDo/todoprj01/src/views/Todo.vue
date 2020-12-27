@@ -17,32 +17,35 @@ button {
 
 <template>
     <div id="app">
-
         <!-- TodoHeader -->
-        <todo-header></todo-header>
+        <TodoHeader></TodoHeader>
 
         <!-- TodoInput -->
-        <todo-input v-on:add-todo="addTodo"></todo-input>
+        <TodoInput v-on:addTodo="addTodo"></TodoInput>
 
         <!-- TodoList -->
-        <todo-list v-bind:todo-items="todoItems" v-on:done-toggle="doneToggle" v-on:remove-todo="removeTodo"></todo-list>
+        <TodoList
+            v-bind:todoItems="todoItems"
+            v-on:doneToggle="doneToggle"
+            v-on:removeTodo="removeTodo"
+        ></TodoList>
 
         <!-- TodoFooter -->
-        <todo-footer v-on:clear-all="clearAll"></todo-footer>
-
+        <TodoFooter v-on:clearAll="clearAll"></TodoFooter>
     </div>
 </template>
 
-<script>
-import TodoHeader from "@/components/todo/TodoHeader";
-import TodoInput from "@/components/todo/TodoInput";
-import TodoList from "@/components/todo/TodoList";
-import TodoFooter from "@/components/todo/TodoFooter";
 
-    export default {
+<script>
+    import TodoHeader from "@/components/todo/TodoHeader.vue";
+    import TodoInput from "@/components/todo/TodoInput.vue";
+    import TodoList from "@/components/todo/TodoList.vue";
+    import TodoFooter from "@/components/todo/TodoFooter.vue";
+    export default { 
+        /* pdtmc^2w */
         props: [] ,
         data: function() {
-            return {
+            return { 
                 todoItems: [
                     { id: 1, todo: "영화보기", done: false },
                     { id: 2, todo: "주말 산책", done: true },
@@ -51,45 +54,53 @@ import TodoFooter from "@/components/todo/TodoFooter";
                 ],
             }
         },
+        //template: ` `,
         methods: {
             doneToggle: function (id, index) {
+                debugger;
                 this.$data.todoItems[index].done = !this.$data.todoItems[index].done;
             },
             removeTodo: function (id, index) {
-                this.$data.todoItems.splice(index,1);
+                debugger;
+                this.$data.todoItems.splice(index, 1)
             },
-            clearAll: function() {
-                this.$data.todoItems = [];
+            clearAll: function () { 
+                this.$data.todoItems = []
             },
             addTodo: function(newTodoItem){
+                
                 // this.$data.todoItems에서 최대 id 값  찾기
                 var maxObj = null;
                 if (this.$data.todoItems.length > 0) {
                     maxObj = this.$data.todoItems.reduce(function (previtem, nextitem) {
                         return previtem.id > nextitem.id ? previtem : nextitem;
                     });
-                    // maxObj === { id: 4, todo: "잠실 야구장", done: false }
+                    // maxObj = { id: 4, todo: "잠실 야구장", done: false }
                 }
                 else {
-                    maxObj === { id: 0, todo: "", done: false }
+                    maxObj = { id: 0, todo: "", done: false }
                 }
-
                 var obj = {
                     id: maxObj.id + 1,
                     todo: newTodoItem,
                     done: false
                 }
-
                 // this.$data.todoItems 에 obj를 추가하시오. 
                 //this.$data.todoItems[this.$data.todoItems.length] = obj;
                 this.$set(this.$data.todoItems, this.$data.todoItems.length, obj);
-            },
+            }
         },
         components: {
             "TodoHeader": TodoHeader,
             "TodoFooter": TodoFooter,
             "TodoList": TodoList,
-            "TodoInput": TodoInput,
+            "TodoInput": TodoInput,    
+        },
+        computed: {
+    
+        },
+        watch: {
+    
         },
     }
 </script>

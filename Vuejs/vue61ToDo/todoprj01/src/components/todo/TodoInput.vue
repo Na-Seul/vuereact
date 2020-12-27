@@ -37,12 +37,10 @@ input:focus {
     display: table;
     transition: opacity 0.3s ease;
 }
-
 .modal-wrapper {
     display: table-cell;
     vertical-align: middle;
 }
-
 .modal-container {
     width: 300px;
     margin: 0px auto;
@@ -53,28 +51,22 @@ input:focus {
     transition: all 0.3s ease;
     font-family: Helvetica, Arial, sans-serif;
 }
-
 .modal-header h3 {
     margin-top: 0;
     color: #62acde;
 }
-
 .modal-body {
     margin: 20px 0;
 }
-
 .modal-default-button {
     float: right;
 }
-
 .modal-enter {
     opacity: 0;
 }
-
 .modal-leave-active {
     opacity: 0;
 }
-
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
     -webkit-transform: scale(1.1);
@@ -120,3 +112,41 @@ input:focus {
         </div>
     </div>
 </template>
+
+<script>
+    export default { 
+        /* pdtmc^2w */
+        props: [] ,
+        data: function() {
+            return { 
+                newTodoItem: null,
+                showModal: false,
+            }
+        },
+        //template: ``,
+        methods: {
+            addTodo: function(){
+                debugger;
+                this.$emit("addTodo", this.$data.newTodoItem )
+                // input 태그 입력값 지우기
+                //this.$data.newTodoItem = "";
+                this.$set(this.$data, "newTodoItem", "")
+            }
+        },
+        components: {
+            
+        },
+        computed: {
+            
+        },
+        watch: {
+            
+        },
+        mounted: function() {
+            console.log("mounted");
+        },
+        updated: function() {
+            console.log("updated");
+        },
+    }
+</script>

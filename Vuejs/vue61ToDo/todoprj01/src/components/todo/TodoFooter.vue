@@ -20,12 +20,12 @@
 </template>
 
 <script>
-    export default {
-        props: [],
-        methods: {
-            clearAll: function () {
-                this.$emit("clear-all");
-            },
-        },
-    }
+export default {
+    props: [],
+    methods: {
+        clearAll:function(){
+            this.$emit("clearAll")
+        }
+    },
+}
 </script>

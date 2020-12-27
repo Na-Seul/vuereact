@@ -29,7 +29,6 @@ li.checked {
     margin-left: auto;
     color: #de4343;
 }
-
 .list-enter-active,
 .list-leave-active {
     transition: all 1s;
@@ -55,7 +54,7 @@ li.checked {
                 <span
                     class="removeBtn"
                     type="button"
-                    v-on:click="removeTodo(todoItem.id, index)"
+                    v-on:click.stop="removeTodo(todoItem.id, index)"
                 >
                     <i class="far fa-trash-alt" aria-hidden="true"></i>
                 </span>
@@ -64,3 +63,46 @@ li.checked {
     </section>
 </template>
 
+<script>
+    export default { 
+        /* pdtmc^2w */
+        props: ["todoItems"] ,
+        data: function() {
+            return { }
+        },
+        //template: ``,
+        methods: {
+            checked: function (done) {
+                if (done) {
+                    return "checked";
+                }
+                else {
+                    return null;    
+                }
+            },
+            doneToggle: function(id, index){
+                debugger;
+                this.$emit("doneToggle", id, index)
+            },
+            removeTodo: function(id, index){
+                debugger;
+                this.$emit("removeTodo", id, index)
+            },
+        },
+        components: {
+            
+        },
+        computed: {
+            
+        },
+        watch: {
+            
+        },
+        mounted: function() {
+            console.log("mounted");
+        },
+        updated: function() {
+            console.log("updated");
+        },
+    }
+</script>
