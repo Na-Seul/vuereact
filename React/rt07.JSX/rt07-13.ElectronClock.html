@@ -52,7 +52,56 @@
 </html>
 
 <!-- react 플러그인 include   -->
-<!-- 주의: 사이트를 배포할 때는 'development.js'를 'production.min.js'로 대체하세요. -->
+<!-- 주의: 사이트를 배포할 때는 "development.js"를 "production.min.js"로 대체하세요. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js">/* JSX를 자바스크립트로 변환 */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.12.0/umd/react.development.js"> /* import { React} from "react"; */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.11.0/umd/react-dom.development.js">/* import { ReactDOM } from "react-dom"; */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.5/redux.js"> /* import {Redux} from "redux"; */ </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.2.2/react-redux.js">/* import {ReactRedux} from "react-redux"; */</script>
+<script type="text/babel">
+    //import React from "react";
+    //import ReactDOM from "react-dom"
+    
+    console.log(React);
+    console.log(ReactDOM);
+    
+    class ElectronClock extends React.Component {
+    
+        static defaultProps = {  /*  props의 디폴트 값 설정 */  } 
+        static propsTypes = {  /* props의 프로퍼티 타입 설정 */ } 
+        state = {
+            // 상태값(변수)을 정의한다.
+    
+        }
+        style = {
+            // 컴포넌트 내부에서 사용할 인라인 스타일을 정의한다.
+            style1:{
+                fontSize:"80px",
+            }
+        }
+        addZero(val){
+            var href = "00"+val;
+            var ext = href.substr(-2);
+            return ext;
+        }
+        render() {
+            const d = new Date();
+            const h = this.addZero(d.getHours());
+            const m = this.addZero(d.getMinutes());
+            const s = this.addZero(d.getSeconds());
+            return (
+                <div style={this.style.style1}>
+                    {h} : {m} : {s}
+                </div>
+            );
+        }
+    }
+
+    //반복
+    window.setInterval(function(){
+        //export default ElectronClock;
+        ReactDOM.render(<ElectronClock></ElectronClock>,document.getElementById("app"));
+    },1000);
+</script>
 
 
-
